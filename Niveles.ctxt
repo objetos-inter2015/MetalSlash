@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Niveles()
+comment1.params=
+comment1.target=void\ act()
+comment2.params=
+comment2.target=void\ primerNivel()
+comment3.params=
+comment3.target=void\ segundoNivel()
+comment4.params=
+comment4.target=void\ tercerNivel()
+comment5.params=
+comment5.target=void\ creaEnemigoTerrestre()
+comment6.params=
+comment6.target=void\ creaEnemigoAereo()
+numComments=7
