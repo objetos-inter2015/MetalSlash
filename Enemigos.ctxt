@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.params=
 comment0.target=Enemigos()
+comment0.text=\r\n\ Constructor\ de\ la\ clase\ Enemigos\:\ estos\ atributos\ son\ heredados\ a\ cada\ tipo\ de\ enemigo\r\n\ (clases\ hijas\ de\ esta\ clase)\r\n
 comment1.params=
-comment1.target=void\ act()
-comment2.params=
-comment2.target=void\ insertaEnemy()
-numComments=3
+comment1.target=void\ disparaBala()
+comment1.text=\r\n\ Metodo\ que\ realiza\ el\ disparo\ de\ los\ enemigos,\ este\ metodo\ lo\ heredan\ los\ diferentes\r\n\ tipos\ de\ enemigos\r\n
+numComments=2

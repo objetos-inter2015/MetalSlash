@@ -1,3 +1,4 @@
+
 import greenfoot.*;
 
 /**
@@ -8,41 +9,56 @@ import greenfoot.*;
  */
 public class EnemigoAereo extends Enemigos
 {
-    BalaEnemiga bala;
-    int cicloDisparo=0;
-    int ban=0;
-    
+    Puntos coin;
+    int dir=0;
     public void act() 
     {
-        if(getX()>=60 && ban==0)
+        if(getX()>=60 && dir==0)
         {
             move(-3);
             setImage("Nave2.png");
         }
         else
         {
-            ban=1;
+            dir=1;
             move(3);
             setImage("Nave2-1.png");
             if(getX()==1000)
-                ban=0;
+                dir=0;
         }
         
-        if(cicloDisparo >= 45)
+        if(cicloDisparo >= 55)
+        {
             disparaBala();
+            bala.tipoEnemigo(2);
+        }
         
         if(isTouching(BalaPistola.class))
-            removeTouching(BalaPistola.class);
+        {
+
+            cont++;
+            if(cont>2)
+            {
+                getWorld().removeObject(this);
+                cont=0;
+            }
+            
+        }
+        else
+         if(isTouching(BalaCañon.class))
+        {
+            removeTouching(BalaCañon.class);
+            getWorld().removeObject(this);
+        }
+        else
+        if(isTouching(BalaRifle.class))
+        {
+            removeTouching(BalaRifle.class);
+            getWorld().removeObject(this);
+        }
         
         cicloDisparo++;
     }
     
-    public void disparaBala()
-    {
-         bala = new BalaEnemiga();
-         getWorld().addObject(bala, getX() - 10, getY() );
-         bala.setRotation(90);
-         cicloDisparo=0;
-         bala.tipoEnemigo(2);
-     }
+    
 }

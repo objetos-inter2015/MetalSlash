@@ -1,10 +1,14 @@
 #BlueJ class context
 comment0.params=
 comment0.target=Jugador()
+comment0.text=\r\n\ constructor\ de\ la\ clase\ Jugador\r\n
 comment1.params=
 comment1.target=void\ act()
+comment1.text=\r\n\ en\ este\ metodo\ se\ verifican\ los\ movimientos\ del\ jugador,\ si\ esta\ tocando\ otro\ objeto,\ cambios\ de\ armas\ y\ acciones\ como\ saltar\ o\ disparar\r\n
 comment2.params=tipo
 comment2.target=void\ disparaBala(int)
+comment2.text=\r\n\ Este\ metodo\ realiza\ el\ disparo\ del\ jugador\ verificando\ primero\ que\ tipo\ de\ arma\ esta\ utilizando\ en\ el\ momento\ de\ disparar\r\n
 comment3.params=
 comment3.target=void\ salto()
+comment3.text=\r\n\ Metodo\ que\ realiza\ el\ salto\ del\ jugador\r\n
 numComments=4

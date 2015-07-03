@@ -8,13 +8,14 @@ import greenfoot.*;
  */
 public class BalaEnemiga extends Bala
 {
-    /**
-     * Act - do whatever the BalaEnemiga wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    int cont=0;
     public void act() 
     {
+        if(isTouching(Jugador.class) || cont>50)
+        getWorld().removeObject(this);
         move(10);
+        
+        cont++;
     }
     
     public void tipoEnemigo(int tipo)
@@ -24,6 +25,10 @@ public class BalaEnemiga extends Bala
             case 1:setRotation(180);
             break;
             case 2:setRotation(90);
+            break;
+            case 3:setRotation(0);
+            break;
+            case 4:setRotation(Greenfoot.getRandomNumber(270));
             break;
         }
     }

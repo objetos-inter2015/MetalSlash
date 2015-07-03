@@ -9,27 +9,32 @@ import greenfoot.*;
 public class Enemigos extends Actor
 {
     int cont;
-    
+    int ban,cicloDisparo;
+    BalaEnemiga bala;
+    int dispara;
+    Puntos coin;
+    /**
+     * Constructor de la clase Enemigos: estos atributos son heredados a cada tipo de enemigo
+     * (clases hijas de esta clase)
+     */
     public Enemigos()
     {
+        ban=0;
+        cicloDisparo=0;
         cont=0;
+        dispara=0;
     }
-    
-    public void act() 
+ 
+    /**
+     * Metodo que realiza el disparo de los enemigos, este metodo lo heredan los diferentes
+     * tipos de enemigos
+     */
+    public void disparaBala()
     {
-        cont++;
-        move(-10);
-        insertaEnemy();
-    }   
-    
-    public void insertaEnemy()
-    {
-        int random = Greenfoot.getRandomNumber(500);
-        
-        if(cont > random && random > 1000)
-        {
-            getWorld().addObject(this,798,500);
-            cont=0;
-        }
+         Greenfoot.playSound("pistola.mp3");
+         bala = new BalaEnemiga();
+         getWorld().addObject(bala, getX() - 10, getY() );
+         cicloDisparo=0;
     }
+   
 }

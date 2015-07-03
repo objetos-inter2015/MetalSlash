@@ -8,12 +8,14 @@ import greenfoot.*;
  */
 public class MunicionRifle extends Municiones
 {
-    /**
-     * Act - do whatever the MunicionRifle wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+   
+    int cont=0;
     public void act() 
     {
-        // Add your action code here.
+        cont++;
+        if(cont>100)
+        {
+            getWorld().removeObject(this);
+        }
     }    
 }

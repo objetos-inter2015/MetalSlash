@@ -8,12 +8,13 @@ import greenfoot.*;
  */
 public class MunicionPistola extends Municiones
 {
-    /**
-     * Act - do whatever the MunicionPistola wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+    
     public void act() 
     {
-        // Add your action code here.
+        tiempo++;
+        if(tiempo>100)
+        {
+            getWorld().removeObject(this);
+        }
     }    
 }

@@ -8,8 +8,14 @@ import greenfoot.*;
  */
 public class MunicionCañon extends Municiones
 {
+    
+    int cont=0;
     public void act() 
     {
-        // Add your action code here.
+        cont++;
+        if(cont>100)
+        {
+            getWorld().removeObject(this);
+        }
     }    
 }

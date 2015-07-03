@@ -1,78 +1,90 @@
 import greenfoot.*;
+import javax.swing.*;
 
 /**
- * Write a description of class Jugador here.
+ * @author Jose Luis Portilla Aria
  * 
- * @author (your name) 
- * @version (a version number or a date)
  */
 public class Jugador extends Actor
 {
    //int armas;
    //int escudo;
-   //String nombre;
-   Granada g,g2;
-   BalaPistola balaP,balaP2 = new BalaPistola();
-   BalaRifle balaR;
-   BalaCañon balaC;
-   Vida life = new Vida();
-   cañon c = new cañon();
-   Rifle r = new Rifle();
-   Pistola p = new Pistola();
-   Puntos coin = new Puntos();
-
    
-   int puntuacion=0;
-   int direccion;
-   int cicloSalto,bandSalto,cicloDisparo,cicloLanza,cicloVidas;
-   int intervalo,contGranadas=10,contMunicionP,contVidas=10,contMunicionRif,contMunicionCañon,contMunGranadas=0;
-   int cicloCambio;
-   int tipoArma;
-   int  bandRifle=0,bandCañon=0;
+   private MunicionGranada munG = new MunicionGranada();
+   private BalaPistola balaP = new BalaPistola();
+   private BalaRifle balaR;
+   private BalaCañon balaC;
    
-   int ban=0,banGranada=0,banCañon=0,banRifle=0;
-   int lanza=0;
+   private Granada g=new Granada();
+   private cañon c = new cañon();
+   private Rifle r = new Rifle();
+   private Pistola p = new Pistola();
+   
+   private Puntos coin = new Puntos();
+   private Vida life = new Vida();
+   
+   public int puntuacion;
+   private int direccion;
+   private int tipoArma;
+   //banderas de ciclos
+   private int cicloSalto,cicloDisparo,cicloVidas,cicloCambio;
+   //contadores
+   private int contMunicionP,contMunicionRif,contMunicionCañon,contMunGranadas;
+   public int contVidas;
+   //banderas de armas
+   private int  bandRifle,bandSalto,bandCañon, ban,banG;
+   String nombre = new String();
+    /**
+    * constructor de la clase Jugador
+    */
     public Jugador()
     {
-
-        cicloCambio=0;
-        tipoArma=0;
-        cicloVidas=0;
-        contVidas=10;
-        cicloLanza = 0;
-        g=new Granada();
-        cicloDisparo = 0;
-        //bandDisparo=0;
-        bandSalto=0;
-        intervalo = 5;
-        cicloSalto = 0;
-        direccion = 0;
-        //escudo = 0;
         
-        contMunicionP = 10;
-        contMunicionRif=20;
+        puntuacion=0;
+        direccion = 0;
+        tipoArma=0;
+        
+        cicloVidas=0;
+        cicloCambio=0;
+        cicloDisparo = 0;
+        cicloSalto = 0;
+        
+
+        contMunGranadas=0;
+        contMunicionP = 70;
+        contMunicionRif=10;
         contMunicionCañon=5;
+        contVidas=50;
+        
+        bandSalto=0;
+
+        banG=0;
+        ban=0;
+        bandCañon=0;
+        bandRifle=0;
     }
-    
+    /**
+     * en este metodo se verifican los movimientos del jugador, si esta tocando otro objeto, cambios de armas y acciones como saltar o disparar
+     */
     public void act()
     {
+            setImage("Personaje_Parado.png");
         
-        setImage("Personaje_Parado.png");
-        if(Greenfoot.isKeyDown("right"))
-        {
-            direccion = 1;
-            move(10);
-            setImage("Personaje_Parado2.png");
-        }
+            if(Greenfoot.isKeyDown("right"))
+            {
+                direccion = 1;
+                move(10);
+                setImage("Personaje_Parado2.png");
+            }
+            
+            if(Greenfoot.isKeyDown("left"))
+            {
+                direccion = 2;
+                move(-10);
+                setImage("Personaje_ParadoI.png");
+            }
         
-        if(Greenfoot.isKeyDown("left"))
-        {
-            direccion = 2;
-            move(-10);
-            setImage("Personaje_Parado2.png");
-        }
-        
-        if(Greenfoot.isKeyDown("up"))
+       if(Greenfoot.isKeyDown("up"))
         {
             direccion = 3;
             setImage("Personaje_Arriba.png");
@@ -83,11 +95,13 @@ public class Jugador extends Actor
             if(bandSalto == 1 )
             {
                 cicloSalto++;
+                setImage("Personaje_Arriba.png");
                 salto();
             }
         
         if(Greenfoot.isKeyDown("c") && cicloCambio>=10)
         {
+            Greenfoot.playSound("cargando-arma.mp3");
             if(tipoArma>2)
                 tipoArma=0;
             else
@@ -113,48 +127,69 @@ public class Jugador extends Actor
             
             if(tipoArma==3)
             {
-                g=new Granada();
-                getWorld().addObject(g,800,400);
+                munG=new MunicionGranada();
+                getWorld().addObject(munG,800,40);
             }
             cicloCambio=0;
         }
         
+
         if(contMunicionP != 0)
         {
             if(Greenfoot.isKeyDown("space"))
             {
-                setImage("Personaje_Disparo.png");
+                
                 switch(tipoArma)
                 {
                     case 0:
-                        if(cicloDisparo >= 10)
+                    {
+                        if(cicloDisparo >= 25)
                         {
+                            
+                            contMunicionP--;
                             cicloDisparo=0;
                             disparaBala(0);
                         }
+                    }
                         break;
                     case 1:
                     {
-                        contMunicionRif--;
-                        if(bandRifle == 1)
+                        if(contMunicionRif!=0 && bandRifle == 1)
+                        {
+                            contMunicionRif--;
                             disparaBala(1);
+                        }
                     }
                         break;
                     case 2:
-                        if(cicloDisparo >= 5 && bandCañon == 1)
+                    {
+                        if(contMunicionCañon != 0 && cicloDisparo >= 5 && bandCañon == 1)
                         {
+                            contMunicionCañon--;
                             cicloDisparo=0;
                             disparaBala(2);
                         }
+                    }
                         break;
                     case 3:
+                    {
+                        if(contMunGranadas!=0)
                         if(cicloDisparo>=20)
                         {
+                            contMunGranadas--;
                             cicloDisparo=0;
                             disparaBala(3);
                         }
+                    }
+                    break;
                 }
             }   
+        }
+        
+        if(isTouching(PuntosEneAereo.class))
+        {
+            removeTouching(PuntosEneAereo.class);
+            puntuacion+=20;
         }
         
         if(ban==0)
@@ -164,18 +199,13 @@ public class Jugador extends Actor
             getWorld().addObject(p,50,50);
             getWorld().addObject(p,50,550);
             ban=1;
-        } 
-        
-        if(isTouching(cañon.class))
-        {
-            getWorld().addObject(c,150,20);
-            removeTouching(cañon.class);
         }
         
         if(isTouching(MunicionPistola.class))
         {
             contMunicionP+=10;
             removeTouching(MunicionPistola.class);
+            Greenfoot.playSound("Carga-pistola.mp3");
         }
         getWorld().showText(String.valueOf(contMunicionP),100,50);
         
@@ -183,70 +213,86 @@ public class Jugador extends Actor
         {
             contMunicionRif+=20;
             removeTouching(MunicionRifle.class);
-            getWorld().showText(String.valueOf(contMunicionRif),200,50);
+            Greenfoot.playSound("Carga-pistola.mp3");
         }
         
         if(isTouching(MunicionCañon.class))
         {
             contMunicionCañon+=5;
             removeTouching(MunicionCañon.class);
-            getWorld().showText(String.valueOf(contMunicionCañon),200,20);
+            Greenfoot.playSound("Carga-pistola.mp3");
         }
         
         if(isTouching(MunicionGranada.class))
         {
+            if(banG==0)
+            {
+                munG = new MunicionGranada();
+                getWorld().addObject(munG,250,20);
+                banG=1;
+            }
+            Greenfoot.playSound("Carga-pistola.mp3");
             removeTouching(MunicionGranada.class);
             contMunGranadas++;
             getWorld().showText(String.valueOf(contMunGranadas),280,20);
         }
+        if (banG==1)
+            getWorld().showText(String.valueOf(contMunGranadas),280,20);
         
         if(isTouching(Rifle.class))
         {
-            if(banRifle==0)
+            if(bandRifle==0)
             {
                 getWorld().addObject(r,150,50);
                 bandRifle=1;
-                banRifle=1;
             }
+            Greenfoot.playSound("Carga-pistola.mp3");
             removeTouching(Rifle.class);
-            getWorld().showText(String.valueOf(contMunicionRif),100,50);
         }
+        if(bandRifle==1)
+            getWorld().showText(String.valueOf(contMunicionRif),200,50);
+        
+        if(isTouching(cañon.class)&&bandCañon==0)
+        {
+            getWorld().addObject(c,150,20);
+            removeTouching(cañon.class);
+            Greenfoot.playSound("Carga-pistola.mp3");
+            bandCañon=1;
+        }
+        if(bandCañon==1)
+            getWorld().showText(String.valueOf(contMunicionCañon),200,20);
         
         if(isTouching(Puntos.class))
         {
             removeTouching(Puntos.class);
             puntuacion+=10;
         }
-        getWorld().showText(String.valueOf(puntuacion),100,80);
         
         if(isTouching(Vida.class))
         {   
             removeTouching(Vida.class);
             life = new Vida();    
-            contVidas++;
+            contVidas+=10;
         }
         getWorld().showText(String.valueOf(contVidas),100,20);
         
-        
         if(contVidas != 0)
         {
-            if(isTouching(BalaCañon.class) || isTouching(BalaEnemiga.class) || isTouching(EnemigoTerrestre.class) && cicloVidas >= 50)
+            if(isTouching(BalaEnemiga.class) || isTouching(EnemigoTerrestre.class) && cicloVidas >= 500)
             {
                 contVidas--;
                 cicloVidas=0;
             }
         }
-        else
-        getWorld().setBackground("gameOver.png");
         
         cicloCambio++;
         cicloVidas++;
         cicloDisparo++;
-        cicloLanza++;
-        
-        
     }
     
+    /**
+     * Este metodo realiza el disparo del jugador verificando primero que tipo de arma esta utilizando en el momento de disparar
+     */
  
      public void disparaBala(int tipo)
     {
@@ -255,99 +301,113 @@ public class Jugador extends Actor
          {
              case 0:
                  {
-                     contMunicionP--;
+                     Greenfoot.playSound("pistola.mp3");
                      if( direccion == 1)
                      {
+                         setImage("Personaje_Disparo.png");
                          balaP = new BalaPistola();
-                         getWorld().addObject(balaP, getX() + 10, getY() );
+                         getWorld().addObject(balaP, getX() + 60, getY()-22 );
                          balaP.setRotation(0);
                      }
                             
                      if( direccion == 2)
                      {
+                         setImage("Personaje_DisparoI.png");
                          balaP = new BalaPistola();
-                         getWorld().addObject(balaP, getX() + 10, getY() );
+                         getWorld().addObject(balaP, getX() - 60, getY()-22 );
                          balaP.setRotation(180);
                      }
                             
                      if( direccion == 3)
                      {
+                         setImage("Personaje_Arriba.png");
                          balaP = new BalaPistola();
-                         getWorld().addObject(balaP, getX() + 10, getY() );
+                         getWorld().addObject(balaP, getX(), getY()-15 );
                          balaP.setRotation(270);
                      }
                  }
                  break;
              case 1:
                  {
-                     contMunicionRif--;
+                     Greenfoot.playSound("pistola.mp3");
                      if( direccion == 1)
                      {
+                         setImage("Personaje_Disparo.png");
                          balaR = new BalaRifle();
-                         getWorld().addObject(balaR, getX() + 10, getY() );
+                         getWorld().addObject(balaR, getX() + 60, getY()-22 );
                          balaR.setRotation(0);
                      }
                             
                      if( direccion == 2)
                      {
+                         setImage("Personaje_DisparoI.png");
                          balaR = new BalaRifle();
-                         getWorld().addObject(balaR, getX() + 10, getY() );
+                         getWorld().addObject(balaR, getX() - 60, getY()-22 );
                          balaR.setRotation(180);
                      }
                             
                      if( direccion == 3)
                      {
+                         setImage("Personaje_Arriba.png");
                          balaR = new BalaRifle();
-                         getWorld().addObject(balaR, getX() + 10, getY() );
+                         getWorld().addObject(balaR, getX() , getY()-15);
                          balaR.setRotation(270);
                      }
                  }
                  break;
              case 2:
                  {
+                     Greenfoot.playSound("pistola.mp3");
                      if( direccion == 1)
                      {
+                         setImage("Personaje_Disparo.png");
                          balaC = new BalaCañon();
-                         getWorld().addObject(balaC, getX() + 10, getY() );
+                         getWorld().addObject(balaC, getX() + 60, getY()-22 );
                          balaC.setRotation(0);
                      }
                             
                      if( direccion == 2)
                      {
+                         setImage("Personaje_DisparoI.png");
                          balaC = new BalaCañon();
-                         getWorld().addObject(balaC, getX() + 10, getY() );
+                         getWorld().addObject(balaC, getX() - 60, getY()-22 );
                          balaC.setRotation(180);
                      }
                             
                      if( direccion == 3)
                      {
+                         setImage("Personaje_Arriba.png");
                          balaC = new BalaCañon();
-                         getWorld().addObject(balaC, getX() + 10, getY() );
+                         getWorld().addObject(balaC, getX() , getY()-15 );
                          balaC.setRotation(270);
                      }
                  }
                  break;
              case 3:
                  {
-                     contGranadas++;
+                     Greenfoot.playSound("granada.mp3");
                      if( direccion == 1)
                      {
+                         setImage("Personaje_Disparo.png");
                          g = new Granada();
-                         getWorld().addObject(g, getX() + 10, getY() );
+                         getWorld().addObject(g, getX() + 60, getY()-22 );
                          g.setRotation(0);
                      }
                             
                      if( direccion == 2)
                      {
+                         setImage("Personaje_DisparoI.png");
                          g = new Granada();
-                         getWorld().addObject(g, getX() + 10, getY() );
+                         getWorld().addObject(g, getX() - 60, getY()-22 );
                          g.setRotation(180);
                      }
                  }
                  break;
     }
    }
-    
+    /**
+     * Metodo que realiza el salto del jugador
+     */
     public void salto()
     {
         if(cicloSalto == 2)

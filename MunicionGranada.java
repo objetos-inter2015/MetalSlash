@@ -8,7 +8,17 @@ import greenfoot.*;
  */
 public class MunicionGranada extends Municiones
 {
+   
+    int cont=0;
     public void act() 
     {
+        if(getY()!=20)
+        {
+            cont++;
+            if(cont>100)
+            {
+                getWorld().removeObject(this);
+            }
+        }
     }    
 }

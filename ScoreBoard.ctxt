@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=width\ height
+comment0.target=ScoreBoard(int,\ int)
+comment1.params=text\ x\ y\ color\ height
+comment1.target=void\ drawString(java.lang.String,\ int,\ int,\ java.awt.Color,\ int)
+comment2.params=
+comment2.target=void\ drawScores()
+comment3.params=left\ top\ right\ bottom\ users
+comment3.target=void\ drawUserPanel(int,\ int,\ int,\ int,\ java.util.List)
+numComments=4

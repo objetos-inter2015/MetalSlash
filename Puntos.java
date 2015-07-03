@@ -8,12 +8,14 @@ import greenfoot.*;
  */
 public class Puntos extends Actor
 {
+    int cont=0;
     public void act() 
     {
-        if(getY()!=500&&getX()!=50)
+        if(getY()!=80)
         {
-            setRotation(90);
-            move(20);
-        }
+            cont ++;
+            if(cont>200)
+                getWorld().removeObject(this);
+        }       
     }   
 }
